@@ -37,6 +37,8 @@
     HelloWorldModule.prototype.bindService = function (bindCB, serviceId) {
         this.sayHello = sayHello;
         this.openConfiguration = openConfiguration;
+        this.getGreeting = getGreeting;
+        this.setGreeting = setGreeting;
         this.test = function(params){
             var rpc = rpcHandler.createRPC(this, 'test', params);
             webinos.rpcHandler.executeRPC(rpc,
@@ -53,6 +55,8 @@
     };
 
     function sayHello(name, successCB, errorCB) {
+        if (typeof successCB != "function") successCB = function(){};
+        if (typeof errorCB != "function") errorCB = function(){};
         var rpc = webinos.rpcHandler.createRPC(this, "sayHello", {name:name});
         webinos.rpcHandler.executeRPC(rpc,
             function (params){
@@ -64,6 +68,8 @@
         );
     }
     function openConfiguration(successCB, errorCB) {
+        if (typeof successCB != "function") successCB = function(){};
+        if (typeof errorCB != "function") errorCB = function(){};
         var rpc = webinos.rpcHandler.createRPC(this, "openConfiguration");
         webinos.rpcHandler.executeRPC(rpc,
             function (params){
@@ -75,6 +81,8 @@
         );
     }
     function getGreeting(successCB, errorCB) {
+        if (typeof successCB != "function") successCB = function(){};
+        if (typeof errorCB != "function") errorCB = function(){};
         var rpc = webinos.rpcHandler.createRPC(this, "getGreeting");
         webinos.rpcHandler.executeRPC(rpc,
             function (params){
@@ -86,6 +94,8 @@
         );
     }
     function setGreeting(greeting, successCB, errorCB) {
+        if (typeof successCB != "function") successCB = function(){};
+        if (typeof errorCB != "function") errorCB = function(){};
         var rpc = webinos.rpcHandler.createRPC(this, "setGreeting", {greeting:greeting});
         webinos.rpcHandler.executeRPC(rpc,
             function (params){
