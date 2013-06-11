@@ -1,0 +1,138 @@
+<html>
+<head>
+    <title>PZP TestPage </title>
+    <link rel="stylesheet" href="../../css/index.css" type="text/css" media="screen"/>
+    <link href='http://fonts.googleapis.com/css?family=Ovo' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/jquery.mobile-1.3.0.min.css" />
+    <script src="../../js/jquery-1.8.2.min.js"></script>
+    <script src="../../js/jquery.mobile-1.3.0.min.js"></script>
+    <script type="text/javascript" src="/webinos.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function logMessage(msg) {
+                if (msg) {
+                    $('#message').append('<li>' + msg + '</li>');
+                }
+            }
+
+            function printInfo(data) {
+                logMessage(data.payload.message);
+            }
+
+            webinos.session.addListener('info', printInfo);
+
+            var foundServices = {};
+            var recentService;
+
+            $('#findService').bind('click', function () {
+                foundServices = {};
+                recentService = null;
+                $('#foundServices').empty();
+                webinos.discovery.findServices(new ServiceType('http://botsikas.blogspot.com/helloworld'),
+                        {onFound:function (service) {
+                            foundServices[service.serviceAddress] = service;
+                            console.log(service);
+                            $('#foundServices').append($('<option value="' + service.serviceAddress + '">' + service.serviceAddress + '</option>'));
+                            $('#foundServices').selectmenu('refresh', true);
+                        }});
+            });
+            $('#bind').bind('click', function () {
+                recentService = foundServices[$('#foundServices option:selected').val()];
+                recentService.bindService({onBind:function (service) {
+                    logMessage('Service ' + service.api + ' bound.');
+                }});
+            });
+            $('#sayHello').bind('click', function () {
+                recentService.sayHello(
+                        $('#sayHelloName').val(),
+                        function (result) {
+                            alert(result.msg);
+                        },
+                        function (error) {
+                            alert(error.code + " " + error.message);
+                        });
+            });
+            $('#openConfigurationFromPZP').bind('click', function () {
+                recentService.openConfiguration(
+                        function(){
+                            logMessage("Dashboard Opened from rpc");
+                        },
+                        function(error){
+                            alert(error.code + " " + error.message);
+                        }
+
+                );
+            });
+            $('#openConfiguration').bind('click', function () {
+                webinos.dashboard.open(
+                    {
+                        module:"helloworld",
+                        data:{
+                            param1: 1,
+                            param2: true,
+                            param3: "opened from browser"
+                        }
+                    },
+                    function(){
+                        logMessage("Dashboard Opened from webinos.dashboard");
+                    },
+                    function(error){
+                        alert(error.code + " " + error.message);
+                    }
+                ).onAction(function(response){
+                    alert(response.result);
+                });
+            });
+            $('#openConfigurationNoParams').bind('click', function () {
+                webinos.dashboard.open(
+                    {
+                        module:"helloworld"
+                    },
+                    function(){
+                        logMessage("Dashboard Opened from webinos.dashboard");
+                    },
+                    function(error){
+                        alert(error.code + " " + error.message);
+                    }
+                ).onAction(function(response){
+                    alert(response.result);
+                });
+            });
+
+        });
+    </script>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Use "Find Services" to search for available services.<br/>
+            Select one, then click "Bind" and use. Select another and bind again to use.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <select id="foundServices"></select>
+        </td>
+    </tr>
+    <tr>
+        <td data-role="controlgroup">
+            <button id="findService" class="button">Find Services</button>
+            <button id="bind" class="button">Bind</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input id="sayHelloName" class="input" placeholder="Enter your name here."/>
+            <button id="sayHello" class="button">sayHello</button>
+        </td>
+    </tr>
+    <tr>
+        <td data-role="controlgroup">
+            <button id="openConfigurationFromPZP" class="button">Open Configuration from pzp</button>
+            <button id="openConfiguration" class="button">Open Configuration</button>
+            <button id="openConfigurationNoParams" class="button">Open Configuration without params</button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

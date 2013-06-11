@@ -1,0 +1,28 @@
+{ "name": "webinos-api-helloworld"
+, "publishConfig": { "tag": "alpha" }
+, "description": "Hello World API"
+, "keywords": [ "webinos", "hello world", "API"]
+, "version": "0.0.1"
+, "homepage": "http://webinos.org/"
+, "author": "Christos Botsikas"
+, "repository":
+  { "type": "git"
+  , "url": "git://github.com/webinos/webinos-api-helloworld.git"
+  }
+, "bugs":
+  { "email": "webinos-wp4-ml@fokus.fraunhofer.de"
+  , "url": ""
+  }
+, "directories":
+  {
+    "lib": "./lib"
+  }
+, "main": "./lib/main.js"
+, "dependencies":
+  {
+  }
+
+, "bundleDependencies":
+  [
+  ]
+}
