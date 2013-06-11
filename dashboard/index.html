@@ -13,10 +13,23 @@
                     }
             );
         });
+		
+		function SendResponse(){
+			// Send the response back to the caller
+			webinos.dashboard.actionComplete(document.getElementById("result").value, function(){
+				// On success close the dashboard
+				window.close();
+			},
+			function(){
+				// On error do something
+				alert("Error sending response!");
+			});
+		}
+		
     </script>
 <body>
 <textarea id="tokenData" readonly placeholder="Data from token" style="width:300px;height:100px;"></textarea><br/>
 <input id="greeting" placeholder="Greeting text"/><button id="setGreetingBtn">Set Greeting</button><br/>
-<input id="result" placeholder="Data to return"/><button id="respondBtn">Send Respond</button>
+<input id="result" placeholder="Data to return"/><button id="respondBtn" onclick="SendResponse()">Send Respond</button>
 </body>
 </html>
