@@ -1,0 +1,15 @@
+ wrt/webinos.servicedisco.js | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/wrt/webinos.servicedisco.js b/wrt/webinos.servicedisco.js
+index 6acee4f..92d3365 100644
+--- a/wrt/webinos.servicedisco.js
++++ b/wrt/webinos.servicedisco.js
+@@ -48,6 +48,7 @@
+         'http://webinos.org/api/internal/zonenotification',
+         'http://webinos.org/manager/discovery/bluetooth',
+         'http://webinos.org/mwc/oauth',
++        'http://botsikas.blogspot.com/helloworld',
+         'http://webinos.org/core/policymanagement'
+     ];
+ 
