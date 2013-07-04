@@ -24,11 +24,10 @@
      * @param obj Object containing displayName, api, etc.
      */
     HelloWorldModule = function(obj) {
-        this.base = WebinosService;
-        this.base(obj);
+        WebinosService.call(this, obj);
     };
 
-    HelloWorldModule.prototype = new WebinosService;
+    _webinos.registerServiceConstructor("http://botsikas.blogspot.com/helloworld", HelloWorldModule);
 
     /**
      * To bind the service.
